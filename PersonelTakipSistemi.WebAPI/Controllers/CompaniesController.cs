@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entity.Concrete;
 using Entity.DTOs.CompanyDtos;
+using Entity.DTOs.EmployeeDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             _companyService = companyService;
         }
 
-        [HttpPost("Add")]
+        [HttpPost("CompanyAdd")]
         public IActionResult Add([FromBody]CompanyAddRequestDto model)
         {
             var result = _companyService.Add(model);
@@ -58,6 +59,18 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        [HttpPost("CompanyUpdate")]
+        public IActionResult EmployeeUpdate([FromBody] CompanyUpdateRequestDto model)
+        {
+            var result = _companyService.Update(model);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+
         }
     }
 }

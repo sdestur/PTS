@@ -18,7 +18,7 @@ namespace DataAccess.Concrete
             using (PersonelTakipSistemiContext context = new PersonelTakipSistemiContext())
             {
                 var query = from company in context.Companys
-                            where company.IsDeleted == false
+                            //where company.IsDeleted == false
                             select new CompanyDto
                             {
                                 CompanyName = company.CompanyName,
@@ -34,7 +34,7 @@ namespace DataAccess.Concrete
             using (PersonelTakipSistemiContext context = new PersonelTakipSistemiContext())
             {
                 var query = from company in context.Companys
-                            where company.Id == id & company.IsDeleted == false
+                            where company.Id == id 
                             select new CompanyGetByIdDto
                             {
                                 CompanyName = company.CompanyName,

@@ -1,4 +1,6 @@
 ﻿using Entity.Concrete;
+using Entity.DTOs.DepartmentDtos;
+using Entity.DTOs.MissionDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IMissionDal : IEntityRepository<Mission>
     {
+        List<MissionGetAllDto> GetAllMission();
+        MissionGetByIdDto GetByIdMission(int id);
     }
 }

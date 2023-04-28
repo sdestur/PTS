@@ -2,6 +2,7 @@
 using DataAccess.UnitOfWorkDesign;
 using Entity.Concrete;
 using Entity.DTOs.BranchDtos;
+using Entity.DTOs.CompanyDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace DataAccess.Concrete
                 var query = from branch in context.Branches
                             join company in context.Companys
                             on branch.CompanyId equals company.Id
-                            where branch.IsDeleted == false
+                            //where branch.IsDeleted == false
                             select new BranchGetAllDto
                             {
                                 BranchName = branch.BranchName,
@@ -36,7 +37,7 @@ namespace DataAccess.Concrete
             {
                 var query = from branch in context.Branches
                             join company in context.Companys
-                            on branch.CompanyId equals company.Id
+                            on branch.CompanyId equals company.Id                         
                             select new BranchGetAllDto
                             {
                                 BranchName = branch.BranchName,
@@ -48,6 +49,20 @@ namespace DataAccess.Concrete
             }
         }
 
+        public BranchGetByIdDto GetByIdBranch(int id)
+        {
+            using (PersonelTakipSistemiContext context = new PersonelTakipSistemiContext())
+            {
+                var query = from branch in context.Branches
+                            where branch.Id == id & branch.IsDeleted == false
+                            select new BranchGetByIdDto
+                            {
+                                BranchName = branch.BranchName,
+                            };
+                return query.FirstOrDefault();
 
-    };
+
+            }
+        }
+    }
 }

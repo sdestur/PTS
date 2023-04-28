@@ -12,9 +12,9 @@ namespace Business.Abstract
     public interface IEmployeeService
     {
         IResult Add(EmployeeAddRequestDto model);
-        IResult Delete(Employee employee);
-        IResult Update(Employee employee);
-        IDataResult<List<Employee>> GetAll();
-        IDataResult<Employee> GetById(int ıd);
+        IResult Delete(int id);
+        IResult Update(EmployeeRequestDto model);
+        IDataResult<List<EmployeeGetAllDto>> GetAll();
+        IDataResult<EmployeeGetByIdDto> GetById(int id);
     }
 }

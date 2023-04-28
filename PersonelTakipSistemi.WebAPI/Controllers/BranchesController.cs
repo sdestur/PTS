@@ -15,8 +15,8 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
         {
             _branchService = branchService;
         }
-        [HttpPost("AddBranch")]
-        public IActionResult Add([FromQuery]BranchAddRequestDto model)
+        [HttpPost("BranchAdd")]
+        public IActionResult Add([FromBody] BranchAddRequestDto model)
         {
             var result = _branchService.Add(model);
             if (result.Success)
@@ -26,8 +26,8 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("GetByIdBranch")]
-        public IActionResult GetById([FromQuery]int id)
+        [HttpGet("BranchGetById")]
+        public IActionResult GetById([FromQuery] int id)
         {
             var result = _branchService.GetById(id);
             if (result.Success)
@@ -37,7 +37,7 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("GetAll")]
+        [HttpGet("BranchGetAll")]
         public IActionResult GetAll()
         {
             var result = _branchService.GetAll();
@@ -50,7 +50,7 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
         [HttpGet("GetAllQ")]
         public IActionResult GetAllQ()
         {
-            var result = _branchService.GetAll();
+            var result = _branchService.GetAllQ();
             if (result.Success)
             {
                 return Ok(result);
@@ -58,7 +58,7 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete("BranchDelete")]
         public IActionResult Delete(int id)
         {
             var result = _branchService.Delete(id);
@@ -68,5 +68,17 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpPost("BranchUpdate")]
+        public IActionResult Update([FromBody] BranchUpdateRequestDto model)
+        {
+            var result = _branchService.Update(model);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }

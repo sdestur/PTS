@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(PersonelTakipSistemiContext))]
-    [Migration("20230423171141_FirstDb")]
-    partial class FirstDb
+    [Migration("20230426100829_EntityV2")]
+    partial class EntityV2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,21 +20,6 @@ namespace DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BranchDepartment", b =>
-                {
-                    b.Property<int>("BranchesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DepartmentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BranchesId", "DepartmentsId");
-
-                    b.HasIndex("DepartmentsId");
-
-                    b.ToTable("BranchDepartment");
-                });
 
             modelBuilder.Entity("Entity.Concrete.Address", b =>
                 {
@@ -107,6 +92,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("DepartmentName")
                         .HasColumnType("nvarchar(max)");
 
@@ -114,6 +102,8 @@ namespace DataAccess.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.ToTable("Departments");
                 });
@@ -126,6 +116,9 @@ namespace DataAccess.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("BranchId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfBirth")
@@ -155,7 +148,7 @@ namespace DataAccess.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MissionId")
+                    b.Property<int?>("MissionId")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber1")
@@ -171,6 +164,8 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("BranchId");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("MissionId");
@@ -185,9 +180,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("DepartmentId")
                         .HasColumnType("int");
 
@@ -199,26 +191,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchId");
-
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Missions");
-                });
-
-            modelBuilder.Entity("BranchDepartment", b =>
-                {
-                    b.HasOne("Entity.Concrete.Branch", null)
-                        .WithMany()
-                        .HasForeignKey("BranchesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entity.Concrete.Department", null)
-                        .WithMany()
-                        .HasForeignKey("DepartmentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entity.Concrete.Address", b =>
@@ -243,6 +218,15 @@ namespace DataAccess.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("Entity.Concrete.Department", b =>
+                {
+                    b.HasOne("Entity.Concrete.Branch", "Branch")
+                        .WithMany("Departments")
+                        .HasForeignKey("BranchId");
+
+                    b.Navigation("Branch");
+                });
+
             modelBuilder.Entity("Entity.Concrete.Employee", b =>
                 {
                     b.HasOne("Entity.Concrete.Branch", "Branch")
@@ -250,6 +234,10 @@ namespace DataAccess.Migrations
                         .HasForeignKey("BranchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entity.Concrete.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId");
 
                     b.HasOne("Entity.Concrete.Department", "Department")
                         .WithMany("Employees")
@@ -259,11 +247,11 @@ namespace DataAccess.Migrations
 
                     b.HasOne("Entity.Concrete.Mission", "Mission")
                         .WithMany("Employees")
-                        .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MissionId");
 
                     b.Navigation("Branch");
+
+                    b.Navigation("Company");
 
                     b.Navigation("Department");
 
@@ -272,20 +260,18 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entity.Concrete.Mission", b =>
                 {
-                    b.HasOne("Entity.Concrete.Branch", null)
-                        .WithMany("Missions")
-                        .HasForeignKey("BranchId");
-
-                    b.HasOne("Entity.Concrete.Department", null)
+                    b.HasOne("Entity.Concrete.Department", "Department")
                         .WithMany("Missions")
                         .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("Entity.Concrete.Branch", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Departments");
 
-                    b.Navigation("Missions");
+                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("Entity.Concrete.Company", b =>

@@ -2,10 +2,14 @@
 using Business.Constans;
 using Business.Utilities.Results;
 using DataAccess.Abstract;
+using DataAccess.Concrete;
 using Entity.Concrete;
+using Entity.DTOs.AddressDtos;
+using Entity.DTOs.BranchDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,20 +18,33 @@ namespace Business.Concrete
     public class AddressManager : IAddressService
     {
         IAddressDal _addressDal;
-        public AddressManager(IAddressDal addressDal)
+        IEmployeeDal _employeeDal;
+        public AddressManager(IAddressDal addressDal, IEmployeeDal employeeDal)
         {
             _addressDal = addressDal;
+            _employeeDal = employeeDal;
         }
-        public IResult Add(Address address)
+        public IResult Add(AddressAddRequestDto model)
         {
-            _addressDal.Add(address);
-            return new SuccessResult(Messages.AddressAdded);
+            var employee = _employeeDal.Get(x => x.Id == model.EmployeeId);
+            if (employee != null)
+            {
+                var address = new Address();
+               address.EmployeeId = model.EmployeeId;
+                address.AddressDescription = model.AddressDescription;
+                _addressDal.Add(address);
+                return new SuccessResult(Messages.BranchAdded);
+            }
+            return new ErrorResult(Messages.Not);
         }
 
-        public IResult Delete(Address address)
+        public IResult Delete(int id)
         {
-            throw new NotImplementedException();
-            //var xx = address.IsDeleted==true;
+            var address = _addressDal.Get(x => x.Id == id);
+
+           
+            _addressDal.Delete(address);
+            return new SuccessResult(Messages.MissionDeleted);
 
         }
 
@@ -36,14 +53,26 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<Address> GetById(int ıd)
+        public IDataResult<AddressGetByIdDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var address = _addressDal.GetByIdAddress(id);
+            if (address != null)
+            {
+                return new SuccessDataResult<AddressGetByIdDto>(address, Messages.BranchListed);
+            }
+            return new ErrorDataResult<AddressGetByIdDto>(Messages.BranchNotExist);
         }
 
-        public IResult Update(Address address)
+        public IResult Update(AddressUpdateRequestDto model)
         {
-            throw new NotImplementedException();
+            var address = _addressDal.Get(a => a.Id == model.AddressId);
+            if (address != null)
+            {
+               address.AddressDescription = model.AddressDescription;
+                _addressDal.Update(address);
+                return new SuccessResult(Messages.BranchUpdated);
+            }
+            return new ErrorResult(Messages.Not);
         }
     }
 }

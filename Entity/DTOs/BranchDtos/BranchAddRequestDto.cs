@@ -9,8 +9,9 @@ namespace Entity.DTOs.BranchDtos
 {
     public class BranchAddRequestDto
     {
-        public string BranchName { get; set; }
-        public int CompanyId { get; set; }
         
+        public int CompanyId { get; set; }
+        public string BranchName { get; set; }
+
     }
 }

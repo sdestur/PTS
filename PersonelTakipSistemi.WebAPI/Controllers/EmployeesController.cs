@@ -14,7 +14,7 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
         {
             _employeeService = employeeService;
         }
-        [HttpPost("PersonelEkleme")]
+        [HttpPost("EmployeeAdd")]
         public IActionResult EmployeeAdd([FromQuery] EmployeeAddRequestDto model)
         {
             var result = _employeeService.Add(model);
@@ -25,5 +25,52 @@ namespace PersonelTakipSistemi.WebAPI.Controllers
             return BadRequest(result);
 
         }
+
+        [HttpGet("EmployeeGetAll")]
+        public IActionResult GetAll()
+        {
+            var result = _employeeService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("EmployeeUpdate")]
+        public IActionResult EmployeeUpdate([FromBody] EmployeeRequestDto model)
+        {
+            var result = _employeeService.Update(model);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+
+        }
+
+        [HttpDelete("EmployeeDelete")]
+        public IActionResult Delete(int id)
+        {
+            var result = _employeeService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("EmployeeGetById")]
+        public IActionResult Get(int id)
+        {
+            var result = _employeeService.GetById(id);
+            if (result.Success)
+            { 
+                return Ok(result); 
+            }
+            return BadRequest(result);
+        }
+
+
     }
 }

@@ -13,7 +13,7 @@ namespace Business.Abstract
     {
         IResult Add(CompanyAddRequestDto model);
         IResult Delete(int id);
-        IResult Update(Company company);
+        IResult Update(CompanyUpdateRequestDto model);
         IDataResult<List<CompanyDto>> GetAll();
         IDataResult<CompanyGetByIdDto> GetById(int ıd);
     }

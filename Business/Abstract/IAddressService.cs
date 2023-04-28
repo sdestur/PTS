@@ -1,5 +1,6 @@
 ﻿using Business.Utilities.Results;
 using Entity.Concrete;
+using Entity.DTOs.AddressDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ namespace Business.Abstract
 {
     public interface IAddressService
     {
-        IResult Add(Address address);
-        IResult Delete(Address address);
-        IResult Update(Address address);
+        IResult Add(AddressAddRequestDto model);
+        IResult Delete(int id);
+        IResult Update(AddressUpdateRequestDto model);
         IDataResult<List<Address>> GetAll();
-        IDataResult<Address> GetById(int ıd);
+        IDataResult<AddressGetByIdDto> GetById(int ıd);
 
     }
 }

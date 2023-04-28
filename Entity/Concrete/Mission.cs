@@ -10,6 +10,8 @@ namespace Entity.Concrete
     public class Mission : BaseEntity, IEntity
     {
         public string MissionName { get; set; }
+        public int? DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
 
     }

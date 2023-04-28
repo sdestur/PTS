@@ -18,21 +18,18 @@ namespace Entity.Concrete
         public DateTime DateOfBirth { get; set; }
         public DateTime StartingDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string PhoneNumber1 { get; set; }
-        public string PhoneNumber2 { get; set; }
+        public string ContactNumber { get; set; }
         public bool IsActive { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
-
-        [ForeignKey("BranchId")]
-        public int BranchId { get; set; }
-        public virtual Branch Branch { get; set; }
         [ForeignKey("MissionId")]
         public int MissionId { get; set; }
-        public virtual Mission Mission { get; set; }
-        [ForeignKey("DepartmanId")]
-        public int DepartmentId { get; set; }
-        public virtual Department Department { get; set; }
+        public Mission Mission { get; set; }
+
+
+
 
     }
+
+    
 }

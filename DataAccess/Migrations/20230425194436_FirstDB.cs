@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class FirstDb : Migration
+    public partial class FirstDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,20 +19,6 @@ namespace DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Companys", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Departments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,27 +43,24 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BranchDepartment",
+                name: "Departments",
                 columns: table => new
                 {
-                    BranchesId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BranchId = table.Column<int>(type: "int", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BranchDepartment", x => new { x.BranchesId, x.DepartmentsId });
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BranchDepartment_Branches_BranchesId",
-                        column: x => x.BranchesId,
+                        name: "FK_Departments_Branches_BranchId",
+                        column: x => x.BranchId,
                         principalTable: "Branches",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BranchDepartment_Departments_DepartmentsId",
-                        column: x => x.DepartmentsId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,19 +70,12 @@ namespace DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MissionName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BranchId = table.Column<int>(type: "int", nullable: true),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Missions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Missions_Branches_BranchId",
-                        column: x => x.BranchId,
-                        principalTable: "Branches",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Missions_Departments_DepartmentId",
                         column: x => x.DepartmentId,
@@ -127,6 +103,7 @@ namespace DataAccess.Migrations
                     BranchId = table.Column<int>(type: "int", nullable: false),
                     MissionId = table.Column<int>(type: "int", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false),
+                    CompanyId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -138,6 +115,12 @@ namespace DataAccess.Migrations
                         principalTable: "Branches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Employees_Companys_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companys",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Employees_Departments_DepartmentId",
                         column: x => x.DepartmentId,
@@ -179,19 +162,24 @@ namespace DataAccess.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BranchDepartment_DepartmentsId",
-                table: "BranchDepartment",
-                column: "DepartmentsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Branches_CompanyId",
                 table: "Branches",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_BranchId",
+                table: "Departments",
+                column: "BranchId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_BranchId",
                 table: "Employees",
                 column: "BranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_CompanyId",
+                table: "Employees",
+                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
@@ -202,11 +190,6 @@ namespace DataAccess.Migrations
                 name: "IX_Employees_MissionId",
                 table: "Employees",
                 column: "MissionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Missions_BranchId",
-                table: "Missions",
-                column: "BranchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Missions_DepartmentId",
@@ -220,19 +203,16 @@ namespace DataAccess.Migrations
                 name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "BranchDepartment");
-
-            migrationBuilder.DropTable(
                 name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Missions");
 
             migrationBuilder.DropTable(
-                name: "Branches");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "Departments");
+                name: "Branches");
 
             migrationBuilder.DropTable(
                 name: "Companys");

@@ -24,7 +24,7 @@ namespace Business.Constans
 
         public static string DepartmentAdded = "Yeni Bölüm eklendi";
         public static string DepartmentDeleted = "Bölüm silindi";
-        public static string DepartmentUpdated = "Bölüm guncellendi";
+        public static string DepartmentUpdated = "Bölüm güncellendi";
         public static string DepartmentsListed = "Bölümler listelendi";
         public static string DepartmentListed = "Bölüm listelendi";
         public static string DepartmentNotExist = "Böyle bir bölüm mevcut degil";
@@ -35,13 +35,22 @@ namespace Business.Constans
         public static string AddressesListed = "Adresler listelendi";
         public static string AddressListed = "Adres listelendi";
         public static string AddressNotExist = "Böyle bir adres mevcut degil";
-
         
         public static string CompanyAdded = "Yeni şirket eklendi";
         public static string CompaniesListed = "Şirketler  lsitelendi ";
         public static string CompanyListed = "Şirket Listelendi";
         public static string CompanyNotExist = "Böyle bir şirket mevcut degil";
         public static string CompanyDeleted = "Şirket Silindi";
+        public static string CompanyUpdated = "Şirket Güncellendi";
+
+        public static string MissionAdded = "Yeni görev eklendi";
+        public static string MissionsListed = "Görevler  lsitelendi ";
+        public static string MissionListed = "Görev Listelendi";
+        public static string MissionNotExist = "Böyle bir görev mevcut degil";
+        public static string MissionDeleted = "görev Silindi";
+        public static string MissionUpdated = "Görev güncellendi";
+
+        public static string Not = "İşleminiz Geçersiz";
 
 
 

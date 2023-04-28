@@ -1,6 +1,8 @@
 ﻿using DataAccess.Abstract;
 using DataAccess.UnitOfWorkDesign;
 using Entity.Concrete;
+using Entity.DTOs.AddressDtos;
+using Entity.DTOs.BranchDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +17,21 @@ namespace DataAccess.Concrete
 
 
 
+        public AddressGetByIdDto GetByIdAddress(int id)
+        {
+            using (PersonelTakipSistemiContext context = new PersonelTakipSistemiContext())
+            {
+                var query = from address in context.Addresses
+                            where address.Id == id 
+                            select new AddressGetByIdDto
+                            {
+                               AddressDescription=address.AddressDescription
+                            };
+                return query.FirstOrDefault();
 
+
+            }
+        }
 
 
 
@@ -28,5 +44,6 @@ namespace DataAccess.Concrete
         //{
         //    _unitOfWork = unitOfWork;
         //}
+
     }
 }

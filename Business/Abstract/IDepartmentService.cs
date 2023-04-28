@@ -1,5 +1,6 @@
 ﻿using Business.Utilities.Results;
 using Entity.Concrete;
+using Entity.DTOs.CompanyDtos;
 using Entity.DTOs.DepartmentDtos;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace Business.Abstract
     public interface IDepartmentService
     {
         IResult Add(DepartmentAddRequestDto model);
-        IResult Delete(Department department);
-        IResult Update(Department department);
-        IDataResult<List<Department>> GetAll();
-        IDataResult<Department> GetById(int ıd);
+        IResult Delete(int id);
+        IResult Update(DepartmentUpdateRequestDto model);
+        IDataResult<List<DepartmentGetAllDto>> GetAll();
+        IDataResult<DepartmentGetByIdDto> GetById(int ıd);
     }
 }

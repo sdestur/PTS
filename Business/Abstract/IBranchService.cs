@@ -13,9 +13,9 @@ namespace Business.Abstract
     {
         IResult Add(BranchAddRequestDto model);
         IResult Delete(int id);
-        IResult Update(Branch branch);
+        IResult Update(BranchUpdateRequestDto model);
         IDataResult<List<BranchGetAllDto>> GetAll();
-        IDataResult<IQueryable<BranchGetAllDto>> GetAllQ();
-        IDataResult<Branch> GetById(int ıd);
+        IDataResult<List<BranchGetAllDto>> GetAllQ();
+        IDataResult<BranchGetByIdDto> GetById(int ıd);
     }
 }

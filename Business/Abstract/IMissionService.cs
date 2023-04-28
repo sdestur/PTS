@@ -1,5 +1,6 @@
 ﻿using Business.Utilities.Results;
 using Entity.Concrete;
+using Entity.DTOs.MissionDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace Business.Abstract
 {
     public interface IMissionService
     {
-        IResult Add(Mission mission);
-        IResult Delete(Mission mission);
-        IResult Update(Mission mission);
-        IDataResult<List<Mission>> GetAll();
-        IDataResult<Mission> GetById(int ıd);
+        IResult Add(MissionAddRequestDtos model);
+        IResult Delete(int id);
+        IResult Update(MissionUpdateRequestDto model);
+        IDataResult<List<MissionGetAllDto>> GetAll();
+        IDataResult<MissionGetByIdDto> GetById(int ıd);
     }
 }

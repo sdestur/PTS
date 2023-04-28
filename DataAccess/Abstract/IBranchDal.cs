@@ -1,5 +1,6 @@
 ﻿using Entity.Concrete;
 using Entity.DTOs.BranchDtos;
+using Entity.DTOs.CompanyDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace DataAccess.Abstract
     {
         List<BranchGetAllDto> GetAllBranches();
         IQueryable<BranchGetAllDto> GetAllBranchesQ();
+        BranchGetByIdDto GetByIdBranch(int id);
     }
 }

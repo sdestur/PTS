@@ -1,6 +1,7 @@
 ﻿using DataAccess.Abstract;
 using DataAccess.UnitOfWorkDesign;
 using Entity.Abstract;
+using Entity.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 namespace DataAccess.Concrete
 {
     public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
-        where TEntity : class, IEntity, new()
+        where TEntity : BaseEntity, new()
         where TContext : DbContext, new()
     {
 
@@ -35,9 +36,15 @@ namespace DataAccess.Concrete
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity); //entitynin referansını al, veri kaynağıyla ilişkilendir
-                deletedEntity.State = EntityState.Deleted;
+               
+                entity.IsDeleted = true;
+
+                var xx = context.Entry(entity);
+                xx.State= EntityState.Modified;
                 context.SaveChanges();
+
+
+
             }
         }
 
@@ -51,7 +58,7 @@ namespace DataAccess.Concrete
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
-            //Bu kısımda hata var, buraya tekrar döneceğim!
+            
             using (TContext context = new TContext())
             {
                 return filter == null
@@ -61,7 +68,7 @@ namespace DataAccess.Concrete
         }
         public IQueryable<TEntity> GetAllQ(Expression<Func<TEntity, bool>> filter = null)
         {
-            //Bu kısımda hata var, buraya tekrar döneceğim!
+            
             using (TContext context = new TContext())
             {
                 return filter == null

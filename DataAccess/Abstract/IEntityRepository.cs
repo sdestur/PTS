@@ -1,4 +1,5 @@
 ﻿using Entity.Abstract;
+using Entity.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IEntityRepository<T> where T : class, IEntity, new()
+    public interface IEntityRepository<T> where T : BaseEntity, new()
     {
         //TEntity Get(int Id);
         //IQueryable Where(Expression<Func<TEntity, bool>> where);
